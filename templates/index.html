@@ -26,10 +26,10 @@
         </tr>
         {% for cafe in cafes %}
         <tr>
-            <td>{{ cafe[0] }}</td>
-            <td>{{ cafe[1] }}</td>
-            <td>{{ "✅" if cafe[2] else "❌" }}</td>
-            <td>{{ "🔌" if cafe[3] else "❌" }}</td>
+            <td><a href="/cafe/{{ cafe[0] }}">{{ cafe[1] }}</a></td>
+            <td>{{ cafe[2] }}</td>
+            <td>{{ "✅" if cafe[3] else "❌" }}</td>
+            <td>{{ "🔌" if cafe[4] else "❌" }}</td>
         </tr>
         {% endfor %}
     </table>
