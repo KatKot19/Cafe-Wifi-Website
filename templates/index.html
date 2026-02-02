@@ -6,32 +6,63 @@
     <title>Καφετέριες με WiFi</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            margin: 20px;
-        }
-        th, td {
-            text-align: left;
-            vertical-align: middle;
-        }
+        body { margin: 20px; }
+        th, td { text-align: left; vertical-align: middle; }
+        img { width: 100px; height: auto; border-radius: 4px; }
     </style>
 </head>
 <body>
     <h1 class="mb-4">Καφετέριες με WiFi</h1>
+
     <table class="table table-striped table-bordered">
         <tr>
             <th>Όνομα</th>
             <th>Τοποθεσία</th>
             <th>WiFi</th>
             <th>Πρίζες</th>
+            <th>Φωτογραφία</th>
+            <th>Διαγραφή</th>
         </tr>
         {% for cafe in cafes %}
         <tr>
-            <td><a href="/cafe/{{ cafe[0] }}">{{ cafe[1] }}</a></td>
+            <td><a href="{{ url_for('cafe_detail', cafe_id=cafe[0]) }}">{{ cafe[1] }}</a></td>
             <td>{{ cafe[2] }}</td>
             <td>{{ "✅" if cafe[3] else "❌" }}</td>
             <td>{{ "🔌" if cafe[4] else "❌" }}</td>
+            <td><img src="{{ cafe[5] }}" alt="{{ cafe[1] }}"></td>
+            <td>
+                <form method="POST" action="{{ url_for('delete_cafe') }}">
+                    <input type="hidden" name="id" value="{{ cafe[0] }}">
+                    <button type="submit" class="btn btn-danger btn-sm">Διαγραφή</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
     </table>
+
+    <h2 class="mt-5">Προσθήκη Νέου Καφέ</h2>
+    <form method="POST" action="{{ url_for('add_cafe') }}">
+        <div class="mb-3">
+            <label for="name" class="form-label">Όνομα Καφέ</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="mb-3">
+            <label for="location" class="form-label">URL Χάρτη</label>
+            <input type="text" class="form-control" id="location" name="location" required>
+        </div>
+        <div class="mb-3">
+            <label for="img_url" class="form-label">URL Φωτογραφίας</label>
+            <input type="text" class="form-control" id="img_url" name="img_url" required>
+        </div>
+        <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" id="has_wifi" name="has_wifi">
+            <label for="has_wifi" class="form-check-label">WiFi</label>
+        </div>
+        <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" id="has_sockets" name="has_sockets">
+            <label for="has_sockets" class="form-check-label">Πρίζες</label>
+        </div>
+        <button type="submit" class="btn btn-success">Προσθήκη Καφέ</button>
+    </form>
 </body>
 </html>
